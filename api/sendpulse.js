@@ -865,6 +865,26 @@ function smtpGetEmailInfoById(callback, id) {
 }
 
 /**
+ * Get information about emails
+ *
+ * @param callback
+ * @param emails
+ */
+function smtpGetEmailsInfo(callback, emails) {
+    if ((emails === undefined) || (!emails.length)) {
+        return callback(returnError('Empty id'));
+    }
+    if (emails.length > 500) {
+        return callback(returnError('Too many id'));
+    }
+    var data = {
+        emails,
+    };
+
+    sendRequest('smtp/emails/info', 'POST', data, true, callback);
+}
+
+/**
  * SMTP: add emails to unsubscribe list
  *
  * @param callback
@@ -1311,6 +1331,7 @@ exports.removeFromBlackList = removeFromBlackList;
 exports.getBalance = getBalance;
 exports.smtpListEmails = smtpListEmails;
 exports.smtpGetEmailInfoById = smtpGetEmailInfoById;
+exports.smtpGetEmailsInfo = smtpGetEmailsInfo;
 exports.smtpUnsubscribeEmails = smtpUnsubscribeEmails;
 exports.smtpRemoveFromUnsubscribe = smtpRemoveFromUnsubscribe;
 exports.smtpListIP = smtpListIP;
